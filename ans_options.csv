@@ -1,0 +1,31 @@
+id,question_id,wr_ans
+1,1,Thermal
+2,1,Kinetic
+3,1,Electrical
+4,2,It loses mass
+5,2,It becomes magnetic
+6,2,It gains potential energy
+7,3,It gains energy
+8,3,The floor absorbs it
+9,3,The ball gets heavier
+10,4,Bulbs get brighter
+11,4,No change
+12,4,Current increases
+13,5,It increases air flow
+14,5,It uses solar power
+15,5,It reflects sunlight
+16,6,Kinetic to electrical
+17,6,Chemical to thermal
+18,6,Thermal to light
+19,7,More energy is wasted
+20,7,Temperature drops faster
+21,7,More insulation is needed
+22,8,Thermal energy becomes light
+23,8,Energy is lost
+24,8,Current reverses
+25,9,It increases
+26,9,It decreases
+27,9,It resets
+28,10,It makes the flask heavier
+29,10,It increases conduction
+30,10,It adds energy
