@@ -6,7 +6,7 @@ DATABASE = "quiz.db"
 
 db = sqlite3.connect(DATABASE)
 cursor = db.cursor()
-query = "SELECT question FROM questions WHERE category_id = 1;"
+query = "SELECT question FROM questions WHERE category_id = 4;"
 cursor.execute(query)
 results = cursor.fetchall()
 for question in results:

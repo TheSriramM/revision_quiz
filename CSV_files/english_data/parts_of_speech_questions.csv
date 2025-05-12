@@ -1,0 +1,11 @@
+id,question,cor_answer,category_id
+61,"In the sentence 'She ran quickly to the store.', what part of speech is 'quickly'?",Adverb,7
+62,"In the sentence 'The cat slept on the warm bed.', what part of speech is 'cat'?",Noun,7
+63,"In the sentence 'He happily accepted the award.', what part of speech is 'happily'?",Adverb,7
+64,"In the sentence 'They are reading books.', what part of speech is 'are'?",Verb,7
+65,"In the sentence 'That was an incredible performance.', what part of speech is 'incredible'?",Adjective,7
+66,"In the sentence 'Wow! That was amazing!', what part of speech is 'Wow'?",Interjection,7
+67,"In the sentence 'The dog barked loudly.', what part of speech is 'barked'?",Verb,7
+68,"In the sentence 'She wore a red dress.', what part of speech is 'red'?",Adjective,7
+69,"In the sentence 'I gave him the book.', what part of speech is 'him'?",Pronoun,7
+70,"In the sentence 'We walked through the park.', what part of speech is 'through'?",Preposition,7

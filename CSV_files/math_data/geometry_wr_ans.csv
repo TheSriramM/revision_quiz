@@ -1,0 +1,31 @@
+id,question_id,wr_ans
+91,31,1260 degrees
+92,31,1620 degrees
+93,31,1080 degrees
+94,32,Right triangle
+95,32,Obtuse triangle
+96,32,Equilateral triangle
+97,33,Base
+98,33,Leg
+99,33,Altitude
+100,34,3
+101,34,4
+102,34,5
+103,35,80 square cm
+104,35,18 square cm
+105,35,100 square cm
+106,36,100 degrees
+107,36,135 degrees
+108,36,150 degrees
+109,37,Orthocenter
+110,37,Circumcenter
+111,37,Incenter
+112,38,45 degrees
+113,38,60 degrees
+114,38,120 degrees
+115,39,Parallelogram
+116,39,Trapezium
+117,39,Rectangle
+118,40,64 square cm
+119,40,48 square cm
+120,40,100 square cm
