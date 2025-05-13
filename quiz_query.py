@@ -1,5 +1,6 @@
-""""""
-
+"""This program allows the user to revise for a specific subject (maths, science or english).
+Within these subjects the user can choose to look at a specific category such as physics in science or algebra in maths
+The questions will be displayed in a random order"""
 import sqlite3
 import random
 
@@ -9,13 +10,13 @@ ans_list = []
 score = 0
 
 print("Welcome to the Y11 revision database!")
-# For next time
-# category = input("What subject do you want to revise (maths, science or english): ")
+subject = input("What subject would you like to revise (maths, science or english): ")
 db = sqlite3.connect(DATABASE)
 cursor = db.cursor()
-query = "SELECT question FROM questions WHERE category_id = 4;"
-cursor.execute(query)
+query = "SELECT question FROM questions WHERE ?;"
+cursor.execute(query, condition)
 results = cursor.fetchall()
+random.shuffle(results)
 for question in results:
     ans_list.clear()
     ans_no = 0
@@ -59,7 +60,7 @@ for question in results:
     inp = input("Please enter A, B, C or D: ")
     inp = inp.upper()
     if inp == letter:
-        print("CORRECT!")
+        print("CORRECT!\n")
         score += 1
     else:
         print("WRONG!")
