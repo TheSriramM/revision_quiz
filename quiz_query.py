@@ -12,10 +12,6 @@ import random
 # if __name__ == "__main__":
 #     app.run(debug=True)
 
-DATABASE = "quiz.db"
-ans_no = 0
-ans_list = []
-score = 0
 
 # def math_questions():
 #     query = "SELECT question FROM questions WHERE category_id = 4 OR category_id = 5;"
@@ -26,6 +22,10 @@ score = 0
 #         print("".join(question))
 
 def main():
+    DATABASE = "quiz.db"
+    ans_no = 0
+    ans_list = []
+    score = 0
     print("Welcome to the revision quiz database!")
     print("You can exit this quiz and select another category by entering 'exit' at anytime")
     print("You can break this application by entering 'break' at anytime")
