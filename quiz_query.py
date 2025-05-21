@@ -1,16 +1,17 @@
 """This program allows the user to revise for a specific subject (maths, science or english).
 Within these subjects the user can choose to look at a specific category such as physics in science or algebra in maths
 The questions will be displayed in a random order"""
+from flask import Flask, session, request, render_template, redirect, url_for
 import sqlite3
 import random
 
-# app = Flask(__name__)
-# @app.route('/')
-# def home():
-#     return render_template("main.html")
+app = Flask(__name__)
+@app.route('/')
+def home():
+    return render_template("main.html")
 
-# if __name__ == "__main__":
-#     app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
 # def math_questions():
@@ -57,8 +58,8 @@ def main():
     for question in results:
         ans_list.clear()
         ans_no = 0
-        # Print the question neatly
-        print("".join(question))
+        # Print the question in bold
+        print("\n" + "\033[1m" + "".join(question) + "\033[0m")
         # Find the id of the question
         id_query = "SELECT id FROM questions WHERE question = ?"
         cursor.execute(id_query, question)
@@ -114,7 +115,7 @@ def main():
             inp = input("Please enter a valid letter: ")
             inp = inp.upper()
         if inp == letter:
-            print("CORRECT!\n")
+            print("CORRECT!")
             score += 1
         else:
             print("WRONG!")
@@ -124,4 +125,3 @@ def main():
     print(f"You got {score} answers correct out of 10.")
     db.close()
 
-main()
