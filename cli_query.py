@@ -14,9 +14,11 @@ results = cursor.fetchall()
 random.shuffle(results)
 
 def main():
+    # Variable declarations
     ans_no = 0
     ans_list = []
     score = 0
+    # Intro
     print("Welcome to the revision quiz database!")
     print("You can exit this quiz and select another category by entering 'exit' at anytime")
     print("You can break this application by entering 'break' at anytime")

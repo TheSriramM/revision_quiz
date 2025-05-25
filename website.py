@@ -8,55 +8,26 @@ import random
 DATABASE = "quiz.db"
 ans_list = []
 app = Flask(__name__)
+app.secret_key = "my_secret_key"
 
-@app.route('/', methods=['GET', 'POST'])
-def question():
-    q = get_question()  # using only the first question for now
-    question_text = q[0]
-    cor_ans = q[1]
-    ans_list = [cor_ans] + ans_options(q[2])
-    result = None
-    selected_answer = None
-    show_next = False
-
-    if request.method == 'POST':
-        selected_answer = request.form.get('answer')
-        if selected_answer == cor_ans:
-            result = "✅ Correct!"
-        else:
-            result = f"❌ Wrong! The correct answer is {cor_ans}."
-        show_next = True
-
-    return render_template(
-        'main.html',
-        question=question_text,
-        choices=ans_list,
-        result=result,
-        selected=selected_answer,
-        show_next=show_next
-    )
-
-def get_question():
+def db_connect():
+    # Connecting to the database
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
-    query = "SELECT question, cor_ans, id FROM questions WHERE category_id = 1;"
+    return cursor
+
+@app.route('/')
+def index():
+    # Main page where categories are shown
+    cursor = db_connect()
+    query = "SELECT * FROM categories"
     cursor.execute(query)
-    results = cursor.fetchall()
-    random.shuffle(results)
-    qe = results[0]
-    id = qe[2]
-    results.remove(qe)
-    return qe
+    categories = cursor.fetchall()
+    return render_template('main.html', categories=categories)
 
-def ans_options(question):
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor()
-    query = "SELECT wr_ans FROM ans_options WHERE question_id = ?"
-    ans_list = []
-    cursor.execute(query, tuple(int(id)))
-    results = cursor.fetchall()
-    for item in results:
-        ans_list.append(item)
+@app.route('/quiz/<int:subject_id>')
+def quiz():
+    pass
 
 if __name__ == "__main__":
     app.run(debug=True)
