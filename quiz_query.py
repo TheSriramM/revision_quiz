@@ -1,17 +1,65 @@
 """This program allows the user to revise for a specific subject (maths, science or english).
 Within these subjects the user can choose to look at a specific category such as physics in science or algebra in maths
 The questions will be displayed in a random order"""
-# from flask import Flask, session, request, render_template, redirect, url_for
+from flask import Flask, session, request, render_template, redirect, url_for
 import sqlite3
 import random
 
-# app = Flask(__name__)
-# @app.route('/')
-# def home():
-#     return render_template("main.html")
+DATABASE = "quiz.db"
+ans_list = []
+app = Flask(__name__)
 
-# if __name__ == "__main__":
-#     app.run(debug=True)
+@app.route('/', methods=['GET', 'POST'])
+def question():
+    q = get_question()  # using only the first question for now
+    question_text = q[0]
+    cor_ans = q[1]
+    ans_list = [cor_ans] + ans_options(q[2])
+    result = None
+    selected_answer = None
+    show_next = False
+
+    if request.method == 'POST':
+        selected_answer = request.form.get('answer')
+        if selected_answer == cor_ans:
+            result = "✅ Correct!"
+        else:
+            result = f"❌ Wrong! The correct answer is {cor_ans}."
+        show_next = True
+
+    return render_template(
+        'main.html',
+        question=question_text,
+        choices=ans_list,
+        result=result,
+        selected=selected_answer,
+        show_next=show_next
+    )
+
+def get_question():
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    query = "SELECT question, cor_ans, id FROM questions WHERE category_id = 1;"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    random.shuffle(results)
+    qe = results[0]
+    id = qe[2]
+    results.remove(qe)
+    return qe
+
+def ans_options(question):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    query = "SELECT wr_ans FROM ans_options WHERE question_id = ?"
+    ans_list = []
+    cursor.execute(query, tuple(int(id)))
+    results = cursor.fetchall()
+    for item in results:
+        ans_list.append(item)
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
 # def math_questions():
@@ -22,107 +70,21 @@ import random
 #     for question in results:
 #         print("".join(question))
 
-def main():
-    DATABASE = "quiz.db"
-    ans_no = 0
-    ans_list = []
-    score = 0
-    print("Welcome to the revision quiz database!")
-    print("You can exit this quiz and select another category by entering 'exit' at anytime")
-    print("You can break this application by entering 'break' at anytime")
-    print("What category would you like to revise: ")
-    print("1. Physics\n2. Biology\n3. Chemistry\n4. Geometry\n5. Algebra\n6. Language features\n7. Parts of speech")
-    num = input("Enter the number of the category you want to revise (1-7): ")
-    # Check if the input is a number or not
-    while not num.isnumeric():
-        if num.lower() == "break":
-            print("\n QUIZ EXITED")
-            exit()
-        elif num.lower() == "exit":
-            print("\n RESTARTING QUIZ \n")
-            main()
-        print("Please enter a number between 1 and 7")
-        num = input("Enter the number of the category you want to revise (1-7): ")
-    # Check if the number is between 1 and 7
-    while 0 > int(num) or 7 < int(num):
-        print("Please enter a number between 1 and 7")
-        num = input("Enter the number of the category you want to revise (1-7): ")    
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor()
-    # Substitute the category id
-    query = "SELECT question FROM questions WHERE category_id = ?;"
-    cursor.execute(query, num)
-    results = cursor.fetchall()
-    random.shuffle(results)
-
-    for question in results:
-        ans_list.clear()
-        ans_no = 0
-        # Print the question in bold
-        print("\n" + "\033[1m" + "".join(question) + "\033[0m")
-        # Find the id of the question
-        id_query = "SELECT id FROM questions WHERE question = ?"
-        cursor.execute(id_query, question)
-        q_id = cursor.fetchall()
-        # Turn the id from a number inside a tuple inside a list to a string
-        for item in q_id:
-            for num in item:
-                id = str(num)
-        cor_ans_query = "SELECT cor_answer FROM questions WHERE id = ?"
-        cursor.execute(cor_ans_query, (int(id),))
-        cor_ans = cursor.fetchall()
-        for tup in cor_ans:
-            # Convert the tuple into a string
-            cor_ans = "".join(tup)
-        ans_list.append(cor_ans)
-        # Find the wrong answers
-        ans_query = "SELECT wr_ans FROM ans_options WHERE question_id = ?"
-        cursor.execute(ans_query, (id,))
-        wr_ans = cursor.fetchall()
-        for ans in wr_ans:
-            # Append each of the wrong answers into the answer list
-            ans_list.append("".join(ans))
-        # Shuffle the questions
-        random.shuffle(ans_list)
-        # Print each of the answers
-        for item in ans_list:
-            ans_no += 1
-            if ans_no == 1:
-                print(f"A) {item}")
-                if cor_ans == item:
-                    letter = "A"
-            elif ans_no == 2:
-                print(f"B) {item}")
-                if cor_ans == item:
-                    letter = "B"
-            elif ans_no == 3:
-                print(f"C) {item}")
-                if cor_ans == item:
-                    letter = "C"
-            elif ans_no == 4:
-                print(f"D) {item}")
-                if cor_ans == item:
-                    letter = "D"
-        inp = input("Please enter A, B, C or D: ")
-        inp = inp.upper()
-        if inp == "BREAK":
-            print("\n QUIZ EXITED")
-            exit()
-        if inp == "EXIT":
-            print("\n RESTARTING QUIZ \n")
-            main()
-        while inp != "A" and inp != "B"  and inp != "C" and inp != "D":
-            inp = input("Please enter a valid letter: ")
-            inp = inp.upper()
-        if inp == letter:
-            print("CORRECT!")
-            score += 1
-        else:
-            print("WRONG!")
-            print(f"The correct answer was {letter} - {cor_ans}")
-
-    # Output the score the user got
-    print(f"You got {score} answers correct out of 10.")
-    db.close()
-
-main()
+# def choices(question):
+#     id = "SELECT ID FROM questions WHERE question IS ?;"
+#     cursor.execute(id, question)
+#     results = cursor.fetchall()
+#     for item in results:
+#         string_id = "".join(results)
+#     cor_ans_query = "SELECT cor_ans FROM questions WHERE question IS ?;"
+#     cursor.execute(cor_ans_query, question)
+#     results = cursor.fetchall()
+#     for item in results:
+#         questions["cor_ans"] = "".join(item)
+#     ans_query = "SELECT wr_ans FROM ans_options WHERE question_id = ?"
+#     cursor.execute(ans_query, id)
+#     results = cursor.fetchall()
+#     ans_options = []
+#     for item in results:
+#         ans_options.append("".join(item))
+#     questions["answers"] = ans_options

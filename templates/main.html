@@ -7,21 +7,28 @@
     <title>Document</title>
 </head>
 <body>
-    <h1 id="subjects"><b>Revision Quiz</b></h1>
-    <div id="subjects">
-        <h2 id="text">Select a subject to revise:</h2>
-        <form>
-            <button>Science</button>
-        </form>
+    <h1>{{ question }}</h1>
+
+    {% if not result %}
+    <!-- Form shown only before answer is submitted -->
+    <form method="post">
+        {% for choice in choices %}
+            <input type="radio" name="answer" value="{{ choice }}" id="{{ choice }}"
+                {% if selected == choice %} checked {% endif %}>
+            <label for="{{ choice }}">{{ choice }}</label><br>
+        {% endfor %}
         <br>
-        <form>
-            <button>Maths</button>
-        </form>
-        <br>
-        <form>
-            <button>English</button>
-        </form>
-        <br>     
-    </div>
+        <button type="submit">Submit</button>
+    </form>
+    {% endif %}
+
+    {% if result %}
+        <p><strong>{{ result }}</strong></p>
+        {% if show_next %}
+            <form method="get" action="{{ url_for('next_question') }}">
+                <button type="submit">Next</button>
+            </form>
+        {% endif %}
+    {% endif %}
 </body>
 </html>
