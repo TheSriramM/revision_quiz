@@ -23,11 +23,34 @@ def index():
     query = "SELECT * FROM categories"
     cursor.execute(query)
     categories = cursor.fetchall()
+    cursor.close()
     return render_template('main.html', categories=categories)
 
 @app.route('/quiz/<int:subject_id>')
-def quiz():
-    pass
+def quiz(sub_id):
+    cursor = db_connect()
+    # Query for getting the questions from the category selected by the user
+    query = "SELECT * FROM Questions WHERE category_id = ?"
+    cursor.execute(query, (sub_id,))
+    questions = cursor.fetchall()
+    # Start with the first question
+    session["cur_question_index"] = 0
+    session['questions'] = [dict(q) for q in questions]
+    cursor.close()
+    return redirect(url_for('question'))
+
+@app.route('/questions')
+def questions(sub_id):
+    cursor = db_connect()
+    cur_question_index = session.get("cur_question_index", 0)
+    questions = session.get("questions")
+    question = questions[cur_question_index]
+    query = "SELECT * FROM ans_options WHERE question_id = ?"
+    ans_options = cursor.execute(query, question['id']).fetchall()
+    options_text = []
+    for option in ans_options:
+        options_text.append(option)
+    cursor.close()
 
 if __name__ == "__main__":
     app.run(debug=True)
