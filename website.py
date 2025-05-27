@@ -37,6 +37,7 @@ def quiz(sub_id):
     # Start with the first question
     session["cur_question_index"] = 0
     session['questions'] = [dict(q) for q in questions]
+    session["category"] = sub_id
     cursor.close()
     return redirect(url_for('show_questions', sub_id=sub_id))
 
@@ -49,11 +50,11 @@ def show_questions(sub_id):
     question = questions[cur_question_index]
     query = "SELECT * FROM ans_options WHERE question_id = ?"
     ans_options = cursor.execute(query, (question['id'],)).fetchall()
-    options_text = []
+    options_text = []    
     for option in ans_options:
         options_text.append(option)
     cursor.close()
-    return render_template('question.html', question=question, options=options_text)
+    return render_template('question.html', questions=question, options=options_text)
 
 @app.route('/answer', methods=['POST'])
 def answer():
@@ -67,7 +68,7 @@ def answer():
     correct = selected_option == questions[0]['answer']
     session['cur_question_index'] += 1
     cursor.close()
-    return render_template('answer.html', correct=correct, question=questions)
+    return render_template('answer.html', correct=correct, questions=questions, sub_id=session.get('category'))
 
 @app.route('/result')
 def result():
