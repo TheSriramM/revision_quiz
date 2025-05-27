@@ -34,10 +34,13 @@ def quiz(sub_id):
     query = "SELECT * FROM Questions WHERE category_id = ?"
     cursor.execute(query, (sub_id,))
     questions = cursor.fetchall()
+    random.shuffle(questions)
     # Start with the first question
     session["cur_question_index"] = 0
     session['questions'] = [dict(q) for q in questions]
     session["category"] = sub_id
+    session["correct_no"] = 0
+    session["limit"] = False
     cursor.close()
     return redirect(url_for('show_questions', sub_id=sub_id))
 
@@ -50,9 +53,8 @@ def show_questions(sub_id):
     question = questions[cur_question_index]
     query = "SELECT * FROM ans_options WHERE question_id = ?"
     ans_options = cursor.execute(query, (question['id'],)).fetchall()
-    options_text = []    
-    for option in ans_options:
-        options_text.append(option)
+    options_text = list(ans_options)
+    random.shuffle(options_text)
     cursor.close()
     return render_template('question.html', questions=question, options=options_text)
 
@@ -64,15 +66,20 @@ def answer():
     query = "SELECT * FROM ans_options WHERE id > 210 AND question_id = ?"
     cursor.execute(query, (question_id,))
     questions = cursor.fetchall()
-    # Check if the selected option is correct  
+    # Check if the selected option is correct
+    if session["cur_question_index"] < 9:  
+        session['cur_question_index'] += 1
+    else:
+        session["limit"]=True
     correct = selected_option == questions[0]['answer']
-    session['cur_question_index'] += 1
+    if correct:
+        session["correct_no"] += 1
     cursor.close()
-    return render_template('answer.html', correct=correct, questions=questions, sub_id=session.get('category'))
+    return render_template('answer.html', correct=correct, questions=questions, sub_id=session.get('category'), answer=questions[0]['answer'], limit=session["limit"])
 
 @app.route('/result')
 def result():
-    return render_template('result.html')
+    return render_template('result.html', cor_answers=session["correct_no"])
 
 if __name__ == "__main__":
     app.run(debug=True)

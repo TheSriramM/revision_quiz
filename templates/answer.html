@@ -7,11 +7,16 @@
     {% if correct %}
         <p>✅ Correct!</p>
     {% else %}
-        <p>❌ Wrong! The correct answer was {{ questions['cor_answer'] }}.</p>
+        <p>❌ Wrong! The correct answer was - {{ answer }}.</p>
     {% endif %}
-
-    <form action="{{ url_for('show_questions', sub_id=sub_id) }}" method="get">
-        <button type="submit">Next</button>
-    </form>
+    {% if not limit %}
+        <form action="{{ url_for('show_questions', sub_id=sub_id) }}" method="get">
+            <button type="submit">Next</button>
+        </form>
+    {% else %}
+        <form action="{{ url_for('result') }}" method="get">
+            <button type="submit">Next</button>
+        </form>
+    {% endif %}        
 </body>
 </html>

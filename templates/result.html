@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head>
+    <title>Result</title>
+</head>
+<body>
+    <h1>Quiz Completed!</h1>
+    <h2>You got {{ cor_answers }}/10 questions right!</h2>
+    <form action="{{ url_for('index') }}" method="get">
+        <button type="submit">Try again</button>
+    </form>
+</body>
+</html>
