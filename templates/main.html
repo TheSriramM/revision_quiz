@@ -9,7 +9,7 @@
 <body>
     <h1>Select a category to revise:</h1>
     {% for category in categories %}
-        <form></form>
+        <form action="{{ url_for('quiz', sub_id=category[0]) }}" method="get">
             <button type="submit">{{ category[1] }}</button>
         </form>
     {% endfor %}
