@@ -7,11 +7,17 @@
     <title>Revision Quiz</title>
 </head>
 <body>
-    <h1>Select a category to revise:</h1>
+    <header class="headerStyle">
+    <h1 style="text-align: center;    padding-top: 25px;">Revision Quiz</h1>
+    </header>
+   
+    <h2>Select a category to revise:</h2>
+    <div style="display:flex;width:100%">
     {% for category in categories %}
-        <form action="{{ url_for('quiz', sub_id=category[0]) }}" method="get">
-            <button type="submit">{{ category[1] }}</button>
+        <form style="width:150px" action="{{ url_for('quiz', sub_id=category[0]) }}" method="get">
+            <button style="width:150px;background-color: lightseagreen;color:white;border: 1px solid black;" type="submit">{{ category[1] }}</button>
         </form>
     {% endfor %}
+    </div>
 </body>
 </html>
