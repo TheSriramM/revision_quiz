@@ -18,4 +18,16 @@ html {
     background-color: lightseagreen;
     color:white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: larger;
+}
+
+.mainBtn{
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    background-color: lightseagreen;
+    color: white;
+    border: 1px solid black;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: larger;
 }

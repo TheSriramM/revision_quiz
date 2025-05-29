@@ -5,11 +5,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>{{ questions['question'] }}</h1>
+    <b><i><h1>{{ questions['question'] }}</h1></i></b>
     <form action="{{ url_for('answer') }}" method="post">
         {% for option in options %}
-            <input type="radio" name="selected_option" value="{{ option['answer'] }}" required>
-            {{ option['answer'] }}<br>
+            <h3>
+                <b>
+                <input type="radio" name="selected_option" value="{{ option['answer'] }}" required>
+                {{ option['answer'] }}
+                </b>
+            </h3>
         {% endfor %}
         <br>
         <input type="hidden" name="question_id" value="{{ questions['id'] }}">

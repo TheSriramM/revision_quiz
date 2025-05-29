@@ -6,9 +6,9 @@
 </head>
 <body>
     {% if correct %}
-        <p>✅ Correct!</p>
+        <h2><p>✅ Correct!</p></h2>
     {% else %}
-        <p>❌ Wrong! The correct answer was - {{ answer }}.</p>
+        <h2><p>❌ Wrong! The correct answer was - {{ answer }}.</p></h2>
     {% endif %}
     {% if not limit %}
         <form action="{{ url_for('show_questions', sub_id=sub_id) }}" method="get">

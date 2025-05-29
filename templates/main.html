@@ -15,7 +15,7 @@
     <div style="display:flex;width:100%">
     {% for category in categories %}
         <form style="width:150px" action="{{ url_for('quiz', sub_id=category[0]) }}" method="get">
-            <button style="width:150px;background-color: lightseagreen;color:white;border: 1px solid black;" type="submit">{{ category[1] }}</button>
+            <button class="mainBtn" type="submit">{{ category[1] }}</button>
         </form>
     {% endfor %}
     </div>
