@@ -1,3 +1,7 @@
+"""This program is the command line version of my program that runs on the command line.
+    Please run the other python file.
+"""
+
 """This program allows the user to revise for a specific subject (maths, science or english).
 Within these subjects the user can choose to look at a specific category such as physics in science or algebra in maths
 The questions will be displayed in a random order"""

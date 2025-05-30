@@ -1,3 +1,5 @@
+"""This program is the flask version of my command line python code"""
+
 """This program allows the user to revise for a specific subject (maths, science or english).
 Within these subjects the user can choose to look at a specific category such as physics in science or algebra in maths
 The questions will be displayed in a random order"""
